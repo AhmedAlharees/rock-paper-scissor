@@ -1,0 +1,306 @@
+@use "_reset";
+
+/* colors */
+
+// Primary
+
+$Scissors-Gradient: hsl(39, 89%, 49%) to hsl(40, 84%, 53%);
+$Paper-Gradient: hsl(230, 89%, 62%) to hsl(230, 89%, 65%);
+// $Rock-Gradient: hsl(349, 71%, 52%) to hsl(349, 70%, 56%);
+$Rock-Gradient: radial-gradient(at top, hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+$Lizard-Gradient: hsl(261, 73%, 60%) to hsl(261, 72%, 63%);
+$Cyan-1: hsl(189, 59%, 53%);
+$Cyan-2: hsl(189, 58%, 57%);
+// Neutral
+
+$Dark-Text: hsl(229, 25%, 31%);
+$Score-Text: hsl(229, 64%, 46%);
+$Header-Outline: hsl(217, 16%, 45%);
+$Shadow: hsla(0, 0%, 54%, 0.36);
+
+// Background
+
+$Radial-Gradient: radial-gradient(
+  at top,
+  hsl(214, 47%, 23%),
+  hsl(237, 49%, 15%)
+);
+
+$rules-shadow: #0000004d;
+
+/* font */
+
+$barlow: "Barlow Semi Condensed", sans-serif;
+$fw-semi-bold: 600;
+$fw-bold: 700;
+
+* {
+  text-transform: uppercase;
+}
+/* body */
+
+body {
+  font-family: $barlow;
+  background: $Radial-Gradient;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* container */
+
+.container {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-top: 2em;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 5px solid $Header-Outline;
+  border-radius: 20px;
+  padding: 1em 2em;
+  height: 150px;
+
+  // score style
+  .score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 140px;
+    height: 100%;
+    line-height: 1;
+    &__title {
+      color: $Score-Text;
+      letter-spacing: 0.1em;
+      font-size: 1.1rem;
+    }
+    &__result {
+      font-size: clamp(3rem, 2vw + 1rem, 4rem);
+      color: $Dark-Text;
+    }
+  }
+}
+
+/* game style */
+
+.game {
+  position: relative;
+  display: grid;
+  grid-template-columns: (repeat(2, 1fr));
+  grid-template-areas:
+    "paper scissors"
+    "rock rock";
+  place-items: center;
+  height: 30rem;
+  padding-top: 3rem;
+  background: url('/images/bg-triangle.svg') no-repeat;
+  background-position: center; 
+}
+
+.game__choice-btn {
+  z-index: 100;
+  all: unset;
+  cursor: pointer;
+}
+
+.choice {
+  position: relative;
+  background-color: #fff;
+  border-radius: 100%;
+  border: none;
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-30px);
+  box-shadow: inset 0 0.5rem $Shadow;
+  transition: box-shadow 0.3s;
+}
+
+.choice:hover {
+  box-shadow: 0 0 0 2rem #3c5a8f;
+}
+.game__choice-btn[data-choice="paper"] {
+  grid-area: paper;
+}
+.game__choice-btn[dat-choice="scissors"] {
+  grid-area: scissors;
+}  
+.game__choice-btn[ data-choice="rock"] {
+  grid-area: rock;
+}
+
+/* results */
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  grid-template-areas: 
+  "your-title . ai-title"
+  "your-choice result-winner ai-choice";
+  max-width: 1000px;
+  margin: 0 auto;
+  .choice{
+    transform: translateY(0);
+  }
+  .results__heading {
+    color: #fff;
+    font-size: clamp(1.2rem, 1rem + 1vw, 3rem);
+    padding: 1rem .3rem 2rem;
+  }
+  .results__result {
+    min-width: 10rem;
+    min-height: 10rem;
+    border-radius: 50%;
+    background-color: #16213d;
+  }
+  .results__heading:first-of-type{
+    grid-area: your-title;
+  }
+  .results__heading:last-of-type {
+    grid-area: ai-title;
+  }
+  .results__result:first-of-type {
+    grid-area: your-choice;
+  }
+  .results__result:last-of-type {
+    grid-area: ai-choice;
+  }
+  
+}
+
+.result__winner {
+  grid-area: result-winner;
+  display: grid;
+  place-items: center;
+  .result__text {
+    transition: .5s;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: clamp(3rem, 1rem + 2vw, 5rem);
+  }
+  .result__btn {
+    cursor: pointer;
+    border: none;
+    background-color: #fff;
+    color: $Dark-Text;
+    padding: 1em 3.2em;
+    border-radius: 10px;
+    &:hover {
+      background-color: lightgray;
+    }
+    &:active {
+      background-color: gray;
+    }
+  }
+}
+
+
+
+.rules-btn {
+  background: transparent;
+  padding: 0.6rem 2rem;
+  letter-spacing: 2px;
+  position: absolute;
+  right: 3rem;
+  bottom: 5rem;
+  border-radius: 10px;
+  outline: none;
+  border: 2px solid $Header-Outline;
+  cursor: pointer;
+  color: #fff;
+}
+
+
+/* modal & game-rules*/ 
+
+.modal {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.3s;
+  background-color: $rules-shadow;
+  .modal__container {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 2em;
+  }
+  .modal__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0.5rem;
+    color: $Dark-Text;
+    .close-btn {
+      outline: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+  }
+  .rules-img {
+    padding: 2rem 4rem;
+  }
+}
+/* media queries */
+
+
+
+@media (max-width: 560px) {
+  .modal__container {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-content: center;
+    .rules-img {
+      padding: 0;
+    }
+  }
+  .rules-btn {
+    margin: 0 auto;
+    left: 3rem
+  };
+  .choice {
+    width: 120px;
+    height: 120px;
+  } 
+  .results {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+    "your-title ai-title"
+    "your-choice ai-choice"
+    "result-winner result-winner"; 
+    .results__result {
+      min-width: 7em;
+      min-height: 7em;
+    }
+  }
+}
+
+
+
+
+/* utilities */
+
+.show-modal {
+  opacity: 1;
+  pointer-events: initial;
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,326 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role=list],
+ol[role=list] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* colors */
+/* font */
+* {
+  text-transform: uppercase;
+}
+
+/* body */
+body {
+  font-family: "Barlow Semi Condensed", sans-serif;
+  background: radial-gradient(at top, hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* container */
+.container {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-top: 2em;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 5px solid hsl(217, 16%, 45%);
+  border-radius: 20px;
+  padding: 1em 2em;
+  height: 150px;
+}
+.header .score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 10px;
+  width: 140px;
+  height: 100%;
+  line-height: 1;
+}
+.header .score__title {
+  color: hsl(229, 64%, 46%);
+  letter-spacing: 0.1em;
+  font-size: 1.1rem;
+}
+.header .score__result {
+  font-size: clamp(3rem, 2vw + 1rem, 4rem);
+  color: hsl(229, 25%, 31%);
+}
+
+/* game style */
+.game {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: "paper scissors" "rock rock";
+  place-items: center;
+  height: 30rem;
+  padding-top: 3rem;
+  background: url("/images/bg-triangle.svg") no-repeat;
+  background-position: center;
+}
+
+.game__choice-btn {
+  z-index: 100;
+  all: unset;
+  cursor: pointer;
+}
+
+.choice {
+  position: relative;
+  background-color: #fff;
+  border-radius: 100%;
+  border: none;
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-30px);
+  box-shadow: inset 0 0.5rem hsla(0, 0%, 54%, 0.36);
+  transition: box-shadow 0.3s;
+}
+
+.choice:hover {
+  box-shadow: 0 0 0 2rem #3c5a8f;
+}
+
+.game__choice-btn[data-choice=paper] {
+  grid-area: paper;
+}
+
+.game__choice-btn[dat-choice=scissors] {
+  grid-area: scissors;
+}
+
+.game__choice-btn[data-choice=rock] {
+  grid-area: rock;
+}
+
+/* results */
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  grid-template-areas: "your-title . ai-title" "your-choice result-winner ai-choice";
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.results .choice {
+  transform: translateY(0);
+}
+.results .results__heading {
+  color: #fff;
+  font-size: clamp(1.2rem, 1rem + 1vw, 3rem);
+  padding: 1rem 0.3rem 2rem;
+}
+.results .results__result {
+  min-width: 10rem;
+  min-height: 10rem;
+  border-radius: 50%;
+  background-color: #16213d;
+}
+.results .results__heading:first-of-type {
+  grid-area: your-title;
+}
+.results .results__heading:last-of-type {
+  grid-area: ai-title;
+}
+.results .results__result:first-of-type {
+  grid-area: your-choice;
+}
+.results .results__result:last-of-type {
+  grid-area: ai-choice;
+}
+
+.result__winner {
+  grid-area: result-winner;
+  display: grid;
+  place-items: center;
+}
+.result__winner .result__text {
+  transition: 0.5s;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: clamp(3rem, 1rem + 2vw, 5rem);
+}
+.result__winner .result__btn {
+  cursor: pointer;
+  border: none;
+  background-color: #fff;
+  color: hsl(229, 25%, 31%);
+  padding: 1em 3.2em;
+  border-radius: 10px;
+}
+.result__winner .result__btn:hover {
+  background-color: lightgray;
+}
+.result__winner .result__btn:active {
+  background-color: gray;
+}
+
+.rules-btn {
+  background: transparent;
+  padding: 0.6rem 2rem;
+  letter-spacing: 2px;
+  position: absolute;
+  right: 3rem;
+  bottom: 5rem;
+  border-radius: 10px;
+  outline: none;
+  border: 2px solid hsl(217, 16%, 45%);
+  cursor: pointer;
+  color: #fff;
+}
+
+/* modal & game-rules*/
+.modal {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.3s;
+  background-color: rgba(0, 0, 0, 0.3019607843);
+}
+.modal .modal__container {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 2em;
+}
+.modal .modal__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: hsl(229, 25%, 31%);
+}
+.modal .modal__header .close-btn {
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.modal .rules-img {
+  padding: 2rem 4rem;
+}
+
+/* media queries */
+@media (max-width: 560px) {
+  .modal__container {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-content: center;
+  }
+  .modal__container .rules-img {
+    padding: 0;
+  }
+  .rules-btn {
+    margin: 0 auto;
+    left: 3rem;
+  }
+  .choice {
+    width: 120px;
+    height: 120px;
+  }
+  .results {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: "your-title ai-title" "your-choice ai-choice" "result-winner result-winner";
+  }
+  .results .results__result {
+    min-width: 7em;
+    min-height: 7em;
+  }
+}
+/* utilities */
+.show-modal {
+  opacity: 1;
+  pointer-events: initial;
+}
+
+.hidden {
+  display: none;
+}/*# sourceMappingURL=style.css.map */
